@@ -21,12 +21,14 @@ int Fibonacci(int *a,int n,int key){
             low=mid+1;
             k=k-2;
         }
-        else if(mid<=n){
+        else {
+            if(mid<=n){
             return mid;
         }
-        else(mid>n){
+        else{
             return n;
         }
     }
+ }
     return 0;
 }
