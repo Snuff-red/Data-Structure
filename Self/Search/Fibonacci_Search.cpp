@@ -1,5 +1,5 @@
 //F为Fibonacci数列，数据结构为int型的数组
-int F={0,1,1,2,3,5,8,13,21};
+int F[]={0,1,1,2,3,5,8,13,21};
 int Fibonacci(int *a,int n,int key){
     int low,high,mid,i,k;
     low=1;
