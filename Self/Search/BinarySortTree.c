@@ -61,4 +61,48 @@ BiTree T=NULL;
     InsertBST(&T,a[i]);
 }*/ //因为不可知VS code识别错误，将其注释，实则代码正确
 
-
+Status Delete(BiTree *p){
+    BiTree q,s;
+    if((*p)->lchild==NULL){
+        q=*p;
+        *p=(*p)->rchild;
+        free(q);
+    }
+    else if((*p)->rchild==NULL){
+        q=*p;
+        *p=(*p)->lchild;
+        free(q);
+    }
+    else{
+        q=*p,s=(*p)->lchild;
+        while(s->rchild){
+            q=s;
+            s=s->rchild;    
+        }
+        (*p)->data=s->data;
+        if(q!=*p){
+            q->rchild=s->lchild;
+        }
+        else{
+            *p=(*p)->lchild;
+        }
+        free(s);
+    }
+    return TRUE;
+}
+Status DeleteBTS(BiTree *T,int key){
+    if(!T){
+        return FALSE;
+    }
+    else{
+        if(key==(*T)->data){
+            return Delete(T);
+        }
+        else if(key<(*T)->data){
+            return DeleteBTS(&(*T)->lchild,key);
+        }
+        else{
+            return DeleteBTS(&(*T)->rchild,key);
+        }
+    }
+}
