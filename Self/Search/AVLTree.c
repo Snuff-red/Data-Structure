@@ -7,7 +7,7 @@
 #define OK 1
 #define ERROR 0
 #define TRUE 1
-#define ERROR 0
+#define FALSE 0
 #define MAXSIZE 100
 
 typedef int Status;
@@ -90,3 +90,45 @@ void RightBalance(BiTree *T){
     }
 }
 
+Status InsertAVL(BiTree *T,int e,Status *taller){
+    if(!*T){
+        *T=(BiTree)malloc(sizeof(BiTNode));
+        (*T)->data=e;(*T)->lchild=(*T)->rchild=NULL;(*T)->bf=EH;
+        *taller=TRUE;
+    }
+    else{
+        if(e==(*T)->data){
+            *taller=FALSE;
+            return FALSE;
+        }
+        if(e<(*T)->data){
+            if(!InsertAVL(&(*T)->lchild,e,taller)){
+                return FALSE;
+            }
+            if(*taller)
+            switch((*T)->bf){
+                case LH:
+                        LeftBalance(T);*taller=FALSE;break;
+                case EH:
+                        (*T)->bf=LH;*taller=TRUE;break;
+                case RH:
+                        (*T)->bf=EH;*taller=FALSE;break;
+            }
+        }
+        else{
+            if(!InsertAVL(&(*T)->rchild,e,taller)){
+                return FALSE;
+            }
+            if(*taller)
+            switch((*T)->bf){
+                case LH:
+                        (*T)->bf=EH;*taller=FALSE;break;
+                case EH:
+                        (*T)->bf=RH;*taller=TRUE;break;
+                case RH:
+                        RightBalance(T);*taller=FALSE;break;
+            }
+        }
+    }
+    return TRUE;
+}
