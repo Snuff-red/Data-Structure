@@ -34,3 +34,59 @@ void L_Rotate(BiTree *p){
     *p=R;
 }
 
+#define LH 1
+#define RH -1
+#define EH 0
+
+void LeftBalance(BiTree *T){
+    BiTree L,Lr;
+    L=(*T)->lchild;
+    switch(L->bf){
+        case LH:
+          (*T)->bf=L->bf=EH;
+          R_Rotate(T);
+          break;
+        case RH:
+          Lr=L->rchild;
+          switch(Lr->bf){
+              case LH:(*T)->bf=RH;
+                      L->bf=EH;
+                      break;
+              case EH:(*T)->bf=L->bf=EH;
+                      break;
+              case RH:(*T)->bf=EH;
+                      L->bf=LH;
+                      break;
+          }
+          Lr->bf=EH;
+          L_Rotate(&(*T)->lchild);
+          R_Rotate(T);     
+    }
+}
+
+void RightBalance(BiTree *T){
+    BiTree R,Rl;
+    R=(*T)->rchild;
+    switch(R->bf){
+        case RH:
+                (*T)->bf=R->bf=EH;
+                L_Rotate(T);
+                break;
+        case LH:
+                Rl=R->lchild;
+                switch(Rl->bf){
+                    case RH:(*T)->bf=LH;
+                            R->bf=EH;
+                            break;
+                    case EH:(*T)->bf=R->bf=EH;
+                            break;
+                    case LH:(*T)->bf=EH;
+                            R->bf=RH;
+                            break;
+                }
+                Rl->bf=EH;
+                R_Rotate(&(*T)->rchild);
+                L_Rotate(T);
+    }
+}
+
